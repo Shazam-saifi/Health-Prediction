@@ -1,0 +1,52 @@
+{
+  "heart_disease": {
+    "best_model": "logistic_regression",
+    "comparison": {
+      "logistic_regression": {
+        "accuracy": 0.8786,
+        "precision": 0.9324,
+        "recall": 0.8519,
+        "f1_score": 0.8903,
+        "roc_auc": 0.9613,
+        "cv_roc_auc_mean": 0.9377,
+        "cv_roc_auc_std": 0.0137,
+        "comparison_cv_accuracy": 0.8769
+      },
+      "random_forest": {
+        "accuracy": 0.8643,
+        "precision": 0.869,
+        "recall": 0.9012,
+        "f1_score": 0.8848,
+        "roc_auc": 0.9217,
+        "cv_roc_auc_mean": 0.9077,
+        "cv_roc_auc_std": 0.02,
+        "comparison_cv_accuracy": 0.8431
+      }
+    }
+  },
+  "diabetes": {
+    "best_model": "logistic_regression",
+    "comparison": {
+      "logistic_regression": {
+        "accuracy": 0.8778,
+        "precision": 0.9,
+        "recall": 0.9,
+        "f1_score": 0.9,
+        "roc_auc": 0.951,
+        "cv_roc_auc_mean": 0.9675,
+        "cv_roc_auc_std": 0.01,
+        "comparison_cv_accuracy": 0.9039
+      },
+      "random_forest": {
+        "accuracy": 0.8778,
+        "precision": 0.9,
+        "recall": 0.9,
+        "f1_score": 0.9,
+        "roc_auc": 0.9261,
+        "cv_roc_auc_mean": 0.9464,
+        "cv_roc_auc_std": 0.012,
+        "comparison_cv_accuracy": 0.8993
+      }
+    }
+  }
+}

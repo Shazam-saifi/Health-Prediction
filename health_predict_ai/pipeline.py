@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import pickle
 from dataclasses import asdict, dataclass
 
 import joblib
@@ -29,7 +30,12 @@ def _select_best_model(results: list[ModelResult]) -> ModelResult:
 
 def train_for_config(config: DatasetConfig) -> TrainingBundle:
     df = load_dataset(config)
-    results, X_test, _ = train_candidate_models(df, config.target_column, config.random_state)
+    results, X_test, _ = train_candidate_models(
+        df,
+        config.target_column,
+        config.random_state,
+        dataset_name=config.name,
+    )
     best_result = _select_best_model(results)
     feature_summary = build_feature_summary(df, config.target_column)
 
@@ -48,7 +54,27 @@ def train_for_config(config: DatasetConfig) -> TrainingBundle:
 def save_bundle(bundle: TrainingBundle) -> None:
     ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
     path = ARTIFACTS_DIR / f"{bundle.dataset_name}_bundle.joblib"
-    joblib.dump(asdict(bundle), path)
+    payload = asdict(bundle)
+    payload["model"] = bundle.estimator.named_steps["classifier"]
+    payload["preprocessor"] = bundle.estimator.named_steps["preprocessor"]
+    payload["feature_names"] = list(
+        bundle.estimator.named_steps["preprocessor"].get_feature_names_out()
+    )
+    joblib.dump(payload, path)
+    pickle_path = ARTIFACTS_DIR / f"{bundle.dataset_name}_model.pkl"
+    with pickle_path.open("wb") as handle:
+        pickle.dump(bundle.estimator, handle)
+
+
+def save_best_model_pickle(bundles: list[TrainingBundle]) -> None:
+    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+    best_bundle = max(
+        bundles,
+        key=lambda bundle: bundle.metrics[bundle.best_model_name]["roc_auc"],
+    )
+    path = ARTIFACTS_DIR / "model.pkl"
+    with path.open("wb") as handle:
+        pickle.dump(best_bundle.estimator, handle)
 
 
 def save_metrics_report(bundles: list[TrainingBundle]) -> None:
@@ -62,6 +88,18 @@ def save_metrics_report(bundles: list[TrainingBundle]) -> None:
         for bundle in bundles
     }
     (REPORTS_DIR / "metrics_summary.json").write_text(json.dumps(payload, indent=2))
+
+
+def save_model_comparison_report(bundles: list[TrainingBundle]) -> None:
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        bundle.dataset_name: {
+            "best_model": bundle.best_model_name,
+            "comparison": bundle.metrics,
+        }
+        for bundle in bundles
+    }
+    (REPORTS_DIR / "model_comparison.json").write_text(json.dumps(payload, indent=2))
 
 
 def load_bundle(dataset_name: str) -> dict[str, object]:

@@ -19,6 +19,7 @@ from health_predict_ai.predict import predict_risk
 ARTIFACTS_REQUIRED = [
     Path("artifacts/heart_disease_bundle.joblib"),
     Path("artifacts/diabetes_bundle.joblib"),
+    Path("artifacts/model.pkl"),
 ]
 USERS_PATH = Path("data/users.json")
 
