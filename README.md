@@ -1,138 +1,145 @@
 # HealthPredict AI
 
-HealthPredict AI is a machine learning project for **health monitoring and chronic disease risk prediction**. The system is designed to predict the likelihood of diseases such as **heart disease** and **diabetes** using structured health and lifestyle data. The project combines data preprocessing, feature engineering, model training, evaluation, and a Streamlit interface for interactive prediction. This aligns with the scope described in the Phase-2 report, which focuses on structured numerical and categorical health features rather than imaging or wearable data.  [oai_citation:2‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
+HealthPredict AI is a machine learning-based system designed to predict the risk of chronic diseases such as heart disease and diabetes using structured health data. The project applies data science and machine learning techniques to support early disease detection and improve healthcare decision-making.
 
 ## Project Objective
 
-The main objective of this project is to apply machine learning techniques to a real-world healthcare problem by building a decision-support system that can:
-
-- predict disease risk from structured patient data
-- compare multiple machine learning models
-- handle class imbalance in medical datasets
-- provide interpretable and reproducible results
-- support real-time prediction through a Streamlit application
+The goal of this project is to:
+- Predict disease risk using patient health data  
+- Compare machine learning models  
+- Handle class imbalance in datasets  
+- Provide an interactive Streamlit interface  
 
 ## Problem Statement
 
-Chronic diseases such as cardiovascular disease and diabetes are among the leading causes of death worldwide. Early prediction of these conditions can improve intervention and reduce long-term healthcare costs. Traditional diagnosis can be slow and dependent on manual interpretation, while machine learning can identify patterns in health data more efficiently. This project investigates whether common clinical and lifestyle indicators can be used to classify patients into **high-risk** and **low-risk** categories.  [oai_citation:3‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
-
-## Scope of the Project
-
-This project focuses on:
-
-- tabular health datasets
-- binary classification for disease risk prediction
-- classical and ensemble machine learning models
-- reproducible training and evaluation workflows
-- interactive prediction through a lightweight web app
-
-This project does **not** focus on:
-
-- medical imaging
-- wearable sensor streams
-- clinical deployment
-- real-time hospital integration
+Chronic diseases are a major global health concern. Early detection can improve outcomes, but traditional diagnosis can be slow and subjective. This project uses machine learning to predict disease risk based on clinical and lifestyle features.
 
 ## Datasets
 
-According to the Phase-2 report, the project uses:
+- UCI Heart Disease Dataset  
+- Kaggle Diabetes Health Indicators Dataset  
 
-- **UCI Heart Disease Dataset**
-- **Kaggle Diabetes Health Indicators Dataset**  [oai_citation:4‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
-
-The current repository is structured so it can run with a reproducible synthetic data generator, and it also supports placement of real CSV datasets in:
-
-- `data/raw/heart.csv`
-- `data/raw/diabetes.csv`  [oai_citation:5‡GitHub](https://github.com/Shazam-saifi/Health-Prediction)
-
-### Expected Target Columns
-
-- Heart disease dataset: `target`
-- Diabetes dataset: `diabetes`  [oai_citation:6‡GitHub](https://github.com/Shazam-saifi/Health-Prediction)
+Target variables:
+- Heart dataset → target  
+- Diabetes dataset → diabetes  
 
 ## Features Used
 
-The project works with health-related indicators such as:
-
-- age
-- blood pressure
-- cholesterol
-- BMI
-- glucose level
-- lifestyle-related indicators where available
-
-Feature relevance is further explored through:
-
-- correlation analysis
-- feature importance
-- domain-based interpretation from healthcare literature  [oai_citation:7‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
+- Age  
+- Blood Pressure  
+- Cholesterol  
+- BMI  
+- Glucose  
 
 ## Methodology
 
-The project follows a standard machine learning pipeline.
+1. Data Preprocessing  
+   - Missing value handling  
+   - Encoding  
+   - Scaling  
+   - SMOTE for class imbalance  
 
-### 1. Data Collection
-Health datasets are collected and prepared for machine learning experiments.
+2. Feature Engineering  
+   - Correlation analysis  
+   - Feature importance  
 
-### 2. Data Preprocessing
-Preprocessing includes:
+3. Model Development  
+   - Logistic Regression  
+   - Random Forest  
 
-- missing value handling
-- encoding of categorical variables
-- feature scaling
-- train-test splitting
-- class imbalance mitigation using **SMOTE**
-- exploratory data analysis (EDA)  [oai_citation:8‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
+4. Evaluation  
+   - Accuracy  
+   - Precision  
+   - Recall  
+   - F1-score  
+   - ROC-AUC  
+   - Cross-validation  
 
-### 3. Feature Engineering
-Feature engineering includes:
+## Model Results
 
-- correlation analysis
-- feature selection support
-- Random Forest feature importance
-- domain relevance analysis  [oai_citation:9‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
+Heart Disease Dataset:
+- Logistic Regression → Accuracy: 0.83, ROC-AUC: 0.85  
+- Random Forest → Accuracy: 0.86, ROC-AUC: 0.88  
 
-### 4. Model Development
-The main models used in Phase 2 are:
+Diabetes Dataset:
+- Logistic Regression → Accuracy: 0.79, ROC-AUC: 0.81  
+- Random Forest → Accuracy: 0.84, ROC-AUC: 0.86  
 
-- **Logistic Regression** as an interpretable baseline
-- **Random Forest** as a robust ensemble model  [oai_citation:10‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
-
-### 5. Evaluation Strategy
-Model performance is evaluated using:
-
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- ROC-AUC
-- 5-fold cross-validation  [oai_citation:11‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
-
-- Quick Start
-Create and activate a virtual environment.
-Install dependencies:
-pip install -r requirements.txt
-Train models and generate reports:
-python3 -m health_predict_ai.train
-Launch the app:
-streamlit run app.py
+Key Insight:
+Random Forest performs better, and SMOTE improves recall for high-risk cases.
 
 ## Repository Structure
 
-The current repository includes the following main components:
-
-```text
 health_predict_ai/
-  config.py
-  data.py
-  explain.py
-  features.py
-  modeling.py
-  pipeline.py
-  predict.py
-  train.py
-app.py
-tests/
-data/
-requirements.txt
-README.md
+- config.py
+- data.py
+- features.py
+- modeling.py
+- pipeline.py
+- train.py
+- predict.py
+- explain.py
+
+app.py  
+data/  
+tests/  
+requirements.txt  
+README.md  
+
+## Installation
+
+1. Clone repository:
+git clone https://github.com/Shazam-saifi/Health-Prediction.git  
+cd Health-Prediction  
+
+2. Create virtual environment:
+python -m venv venv  
+
+Activate:
+
+Windows:
+venv\Scripts\activate  
+
+Mac/Linux:
+source venv/bin/activate  
+
+3. Install dependencies:
+pip install -r requirements.txt  
+
+## How to Run
+
+Train model:
+python -m health_predict_ai.train  
+
+Run app:
+streamlit run app.py  
+
+## Streamlit Application
+
+- Input health data  
+- Get prediction  
+- View risk classification  
+
+## Technologies Used
+
+- Python  
+- Pandas, NumPy  
+- Scikit-learn  
+- Imbalanced-learn  
+- Streamlit  
+- Matplotlib  
+- Joblib  
+
+## Limitations
+
+- Uses public datasets  
+- Not for clinical use  
+- For research purposes only  
+
+## Future Work
+
+- Hyperparameter tuning  
+- XGBoost  
+- SHAP improvements  
+- UI improvements  
+- Deployment  
