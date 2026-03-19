@@ -108,6 +108,15 @@ Model performance is evaluated using:
 - ROC-AUC
 - 5-fold cross-validation  [oai_citation:11‡Health Monitoring and Disease Prediction Using Machine Learning.docx](sediment://file_00000000ff3071fbaab8a71fdb71908e)
 
+- Quick Start
+Create and activate a virtual environment.
+Install dependencies:
+pip install -r requirements.txt
+Train models and generate reports:
+python3 -m health_predict_ai.train
+Launch the app:
+streamlit run app.py
+
 ## Repository Structure
 
 The current repository includes the following main components:
