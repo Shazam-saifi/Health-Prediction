@@ -12,10 +12,6 @@ def ensure_directories() -> None:
     RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def _sigmoid(values: np.ndarray) -> np.ndarray:
-    return 1.0 / (1.0 + np.exp(-values))
-
-
 def generate_heart_dataset(rows: int = 700, seed: int = 42) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
     age = rng.integers(29, 78, rows)

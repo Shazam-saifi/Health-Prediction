@@ -139,7 +139,7 @@ def _render_auth_tabs(prefix: str) -> None:
         with st.form(f"{prefix}_sign_in_form"):
             login_email = st.text_input("Email", key=f"{prefix}_login_email")
             login_password = st.text_input("Password", type="password", key=f"{prefix}_login_password")
-            if st.form_submit_button("Sign In", use_container_width=True):
+            if st.form_submit_button("Sign In", width="stretch"):
                 user = _authenticate_user(login_email, login_password)
                 if user:
                     st.session_state.current_user = user
@@ -153,7 +153,7 @@ def _render_auth_tabs(prefix: str) -> None:
             full_name = st.text_input("Full Name", key=f"{prefix}_register_name")
             register_email = st.text_input("Email", key=f"{prefix}_register_email")
             register_password = st.text_input("Password", type="password", key=f"{prefix}_register_password")
-            if st.form_submit_button("Create Account", use_container_width=True):
+            if st.form_submit_button("Create Account", width="stretch"):
                 success, message = _register_user(full_name, register_email, register_password)
                 if success:
                     st.success(message)
@@ -170,7 +170,7 @@ def _render_auth_panel() -> None:
         st.caption("Manage your session here.")
         st.success(f"Signed in as {st.session_state.current_user['full_name']}")
         st.caption(st.session_state.current_user["email"])
-        if st.button("Log Out", use_container_width=True):
+        if st.button("Log Out", width="stretch"):
             st.session_state.current_user = None
             st.rerun()
 
@@ -327,7 +327,28 @@ def _render_reference_ranges(title: str, ranges_df: pd.DataFrame) -> None:
         """,
         unsafe_allow_html=True,
     )
-    st.dataframe(ranges_df, use_container_width=True, hide_index=True)
+    st.dataframe(ranges_df, width="stretch", hide_index=True)
+
+
+def _render_input_card(title: str, description: str) -> None:
+    st.markdown(
+        f"""
+        <div style="
+            background: #ffffff;
+            border: 1px solid #dbe7f3;
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+        ">
+            <div style="font-size: 1.02rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">{title}</div>
+            <div style="font-size: 0.95rem; line-height: 1.6; color: #475569;">
+                {description}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def _render_hero() -> None:
@@ -498,7 +519,7 @@ def _render_result(result: dict[str, object]) -> None:
         unsafe_allow_html=True,
     )
     st.metric("Risk Probability", f"{result['risk_probability']:.2%}")
-    st.dataframe(result["top_factors"], use_container_width=True, hide_index=True)
+    st.dataframe(result["top_factors"], width="stretch", hide_index=True)
 
 
 def main() -> None:
@@ -525,26 +546,12 @@ def main() -> None:
         with left_col:
             _render_reference_ranges("Heart Health Reference Readings", HEART_REFERENCE_RANGES)
         with right_col:
-            st.markdown(
-                """
-                <div style="
-                    background: #ffffff;
-                    border: 1px solid #dbe7f3;
-                    border-radius: 18px;
-                    padding: 18px 20px;
-                    margin-bottom: 12px;
-                    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
-                ">
-                    <div style="font-size: 1.02rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Enter Patient Readings</div>
-                    <div style="font-size: 0.95rem; line-height: 1.6; color: #475569;">
-                        Adjust the values below to generate a heart disease risk estimate.
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
+            _render_input_card(
+                "Enter Patient Readings",
+                "Adjust the values below to generate a heart disease risk estimate.",
             )
             heart_payload = _number_input_fields(HEART_DEFAULTS)
-            if st.button("Predict Heart Disease Risk", use_container_width=True):
+            if st.button("Predict Heart Disease Risk", width="stretch"):
                 result = predict_risk("heart_disease", heart_payload)
                 _render_result(result)
 
@@ -554,26 +561,12 @@ def main() -> None:
         with left_col:
             _render_reference_ranges("Diabetes Reference Readings", DIABETES_REFERENCE_RANGES)
         with right_col:
-            st.markdown(
-                """
-                <div style="
-                    background: #ffffff;
-                    border: 1px solid #dbe7f3;
-                    border-radius: 18px;
-                    padding: 18px 20px;
-                    margin-bottom: 12px;
-                    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
-                ">
-                    <div style="font-size: 1.02rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Enter Patient Readings</div>
-                    <div style="font-size: 0.95rem; line-height: 1.6; color: #475569;">
-                        Use the sex toggle and input values to estimate diabetes risk more naturally.
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
+            _render_input_card(
+                "Enter Patient Readings",
+                "Use the sex toggle and input values to estimate diabetes risk more naturally.",
             )
             diabetes_payload = _diabetes_input_fields(DIABETES_DEFAULTS)
-            if st.button("Predict Diabetes Risk", use_container_width=True):
+            if st.button("Predict Diabetes Risk", width="stretch"):
                 result = predict_risk("diabetes", diabetes_payload)
                 _render_result(result)
 
